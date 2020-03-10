@@ -25,6 +25,7 @@
 5. 将student（params）反序列化后，在本地调用addAge()函数，得到结果
 6. 将student结果序列化后通过网络返回给Client
 ```
+
 ![](./image/rpcframework.png)
 
 - 在微服务的设计中，一个服务A如果访问另一个Module下的服务B，可以采用HTTP REST传输数据，并在两个服务之间进行序列化和反序列化操作，服务B把执行结果返回过来。
@@ -231,16 +232,19 @@ public class RPCTest {
 - 正是因为REST面临一些问题，因此可以采用gRPC作为一种替代方案，gRPC 是一种基于二进制流的消息协议，可以采用基于Protocol Buffer的IDL定义grpc API,这是Google公司用于序列化结构化数据提供的一套语言中立的序列化机制，客户端和服务端使用HTTP/2以Protocol Buffer格式交换二进制消息。
 - gRPC的优势是，设计复杂更新操作的API非常简单，具有高效紧凑的进程通信机制，在交换大量消息时效率高，远程过程调用和消息传递时可以采用双向的流式消息方式，同时客户端和服务端支持多种语言编写，互操作性强；不过gRPC的缺点是不方便与JavaScript集成，某些防火墙不支持该协议。
 - 注册中心：当项目中有很多服务时，可以把所有的服务在启动的时候注册到一个注册中心里面，用于维护服务和服务器之间的列表，当注册中心接收到客户端请求时，去找到该服务是否远程可以调用，如果可以调用需要提供服务地址返回给客户端，客户端根据返回的地址和端口，去调用远程服务端的方法，执行完成之后将结果返回给客户端。这样在服务端加新功能的时候，客户端不需要直接感知服务端的方法，服务端将更新之后的结果在注册中心注册即可，而且当修改了服务端某些方法的时候，或者服务降级服务多机部署想实现负载均衡的时候，我们只需要更新注册中心的服务群即可。
+
 ![RPC调用过程](./image/recall.png)
 
 
 ## 2.2. gRPC与Spring Boot
 这里使用SpringBoot+gRPC的形式实现RPC调用过程
 项目结构分为三部分：client、grpc、server
+
 ![项目结构](./image/structure.png)
 
 ### 2.2.2 grpc
 ![](./image/grpc.png)
+
 pom.xml中引入依赖：
 ```
 <dependency>
@@ -353,7 +357,9 @@ public class GRPCClient {
 
 ```
 ### 2.2.4 server
+
 ![](./image/server.png)
+
 按照2.2.3 client的方式添加依赖
 创建RPCDateServiceImpl
 ```
